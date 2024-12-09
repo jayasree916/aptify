@@ -4,23 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class ApartmentModel extends Model
 {
-    protected $table            = 'users';
+    protected $table            = 'apartment';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [
-        'username',
-        'password',
-        'name',
-        'address',
-        'email',
-        'contact_no',
-        'created_at',
-        'updated_at'];
+    protected $allowedFields    = ['apartment_no','owner_name', 'contact_no', 'address', 'block', 'type', 'occupancy', 'created_by','created_at', 'updated_by', 'updated_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -51,9 +43,4 @@ class UserModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-
-    public function getUserByUsername(string $username): ?array
-    {
-        return $this->where('username', $username)->first();
-    }
 }
