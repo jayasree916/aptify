@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ApartmentModel extends Model
+class BillingTypeModel extends Model
 {
-    protected $table            = 'apartments';
+    protected $table            = 'billing_types';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['apartment_no','owner_name', 'contact_no', 'address', 'block', 'type', 'occupancy', 'created_by','created_at', 'updated_by', 'updated_at'];
+    protected $allowedFields    = ['billing_type', 'description', 'default_charge', 'created_by','created_at', 'updated_by', 'updated_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

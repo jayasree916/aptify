@@ -4,15 +4,26 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ApartmentModel extends Model
+class TenantModel extends Model
 {
-    protected $table            = 'apartments';
+    protected $table            = 'tenants';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['apartment_no','owner_name', 'contact_no', 'address', 'block', 'type', 'occupancy', 'created_by','created_at', 'updated_by', 'updated_at'];
+    protected $allowedFields    = [
+        'tenant_name',
+        'address',
+        'contact_number',
+        'apartment_id',
+        'from_date',
+        'to_date',
+        'remarks',
+        'created_by',
+        'created_at',
+        'updated_by',
+        'updated_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

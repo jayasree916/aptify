@@ -28,7 +28,7 @@ class Apartment extends BaseController
     {
         // Validate input data
         if (!$this->validate([
-            'apartment_no' => 'required|is_unique[apartment.apartment_no]',
+            'apartment_no' => 'required|is_unique[apartments.apartment_no]',
             'owner_name' => 'required',
             'address' => 'required',
             'contact_no' => 'required',
