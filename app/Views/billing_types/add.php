@@ -2,7 +2,12 @@
 <?= $this->section('content') ?>
 
 <h1>Add Billing Type</h1>
-
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= esc(session()->getFlashdata('error')) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <form action="<?= base_url('/billing-types/store') ?>" method="post">
     <div class="mb-3">
         <label for="type_name" class="form-label">Billing Type Name</label>

@@ -29,8 +29,10 @@ class BillingTypes extends BaseController
     public function store()
     {        // Get form data
         $data = $this->request->getPost();
-        if (empty($data['billing_type']) || empty($data['description']) || empty($data['default_charge'])) {
+        if (empty($data['billing_type']) || empty($data['default_charge'])) {
             return redirect()->back()->with('error', 'Please fill in all required fields');
+            session()->setFlashdata('status', 'error');
+            session()->setFlashdata('message', 'Please fill in all required fields');
         }
 
         // Add created_by to data before inserting
@@ -38,10 +40,11 @@ class BillingTypes extends BaseController
         $data['updated_by'] = session()->get('user_id');
         $data['created_at'] = date('Y-m-d H:i:s');
         $data['updated_at'] =  date('Y-m-d H:i:s');
-
         // Insert data into the model
         $this->billingTypeModel->insert($data);
-        return redirect()->to('/billing-types')->with('success', 'Billing type inserted successfully.');
+        session()->setFlashdata('status', 'success');
+        session()->setFlashdata('message', 'Billing type inserted successfully.');
+        return redirect()->to('/billing-types');
     }
 
 
@@ -60,13 +63,16 @@ class BillingTypes extends BaseController
             'updated_by' => session()->get('user_id'),
             'updated_at' =>  date('Y-m-d H:i:s'),
         ]);
-
-        return redirect()->to('/billing-types')->with('success', 'Billing type updated successfully.');
+        session()->setFlashdata('status', 'success');
+        session()->setFlashdata('message', 'Billing type updated successfully.');
+        return redirect()->to('/billing-types');
     }
 
     public function delete($id)
     {
         $this->billingTypeModel->delete($id);
-        return redirect()->to('/billing-types')->with('success', 'Billing type deleted successfully.');
+        session()->setFlashdata('status', 'success');
+        session()->setFlashdata('message', 'Billing type deleted successfully.');
+        return redirect()->to('/billing-types');
     }
 }

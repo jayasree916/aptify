@@ -2,25 +2,14 @@
 <?= $this->section('content') ?>
 
 <h1>Add New Tenant</h1>
-
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= esc(session()->getFlashdata('error')) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <form action="<?= base_url('/tenants/add') ?>" method="post">
     <?= csrf_field() ?>
-
-    <div class="form-group">
-        <label for="tenant_name">Tenant Name</label>
-        <input type="text" class="form-control" id="tenant_name" name="tenant_name" value="<?= old('tenant_name') ?>" required>
-    </div>
-
-    <div class="form-group">
-        <label for="address">Address</label>
-        <textarea class="form-control" id="address" name="address" required><?= old('address') ?></textarea>
-    </div>
-
-    <div class="form-group">
-        <label for="contact_number">Contact Number</label>
-        <input type="text" class="form-control" id="contact_number" name="contact_number" value="<?= old('contact_number') ?>" required>
-    </div>
-
     <div class="form-group">
         <label for="apartment_id">Apartment</label>
         <select class="form-control" id="apartment_id" name="apartment_id" required>
@@ -32,7 +21,21 @@
             <?php endforeach; ?>
         </select>
     </div>
+    <div class="form-group">
+        <label for="tenant_name">Tenant Name</label>
+        <input type="text" class="form-control" id="tenant_name" name="tenant_name" value="<?= old('tenant_name') ?>" required style="text-transform: capitalize;">
+    </div>
 
+    <div class="form-group">
+        <label for="address">Address</label>
+        <textarea class="form-control" id="address" name="address" required><?= old('address') ?></textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="contact_number">Contact Number</label>
+        <input type="text" class="form-control" id="contact_number" name="contact_number" value="<?= old('contact_number') ?>" required pattern="^\d{10}$" maxlength="10" title="Contact number must be exactly 10 digits.">
+    </div>
+    
     <div class="form-group">
         <label for="from_date">From Date</label>
         <input type="date" class="form-control" id="from_date" name="from_date" value="<?= old('from_date') ?>" required>

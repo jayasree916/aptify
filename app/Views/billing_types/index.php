@@ -2,7 +2,12 @@
 <?= $this->section('content') ?>
 
 <h1>Billing Types</h1>
-
+<?php if (session()->getFlashdata('status') && session()->getFlashdata('message')): ?>
+    <div class="alert alert-<?= session()->getFlashdata('status') === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show" role="alert">
+        <?= esc(session()->getFlashdata('message')) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <a href="<?= base_url('/billing-types/create') ?>" class="btn btn-primary">Add New Billing Type</a>
 
 <table class="table table-bordered mt-3">

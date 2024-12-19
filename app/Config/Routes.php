@@ -41,3 +41,30 @@ $routes->group('billing-types', ['namespace' => 'App\Controllers'], function ($r
     $routes->post('update/(:num)', 'BillingTypes::update/$1');
     $routes->get('delete/(:num)', 'BillingTypes::delete/$1');
 });
+
+$routes->group('billing', function ($routes) {
+    $routes->get('/', 'Bills::index');
+    $routes->get('add', 'Bills::add');
+    $routes->post('generate-bill', 'Bills::generateMonthlyBills');
+    $routes->get('edit/(:num)', 'Bills::edit/$1');
+    $routes->post('update/(:num)', 'Bills::update/$1');
+    $routes->get('delete/(:num)', 'Bills::delete/$1');
+});
+
+$routes->group('user-roles', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('/', 'UserRoles::index');
+    $routes->get('add', 'UserRoles::add');
+    $routes->post('add', 'UserRoles::create');
+    $routes->get('edit/(:num)', 'UserRoles::edit/$1');
+    $routes->put('edit/(:num)', 'UserRoles::update/$1');
+    $routes->get('delete/(:num)', 'UserRoles::delete/$1');
+});
+
+$routes->group('users', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('/', 'User::index');
+    $routes->get('add', 'User::add');
+    $routes->post('add', 'User::create');
+    $routes->get('edit/(:num)', 'User::edit/$1');
+    $routes->put('edit/(:num)', 'User::update/$1');
+    $routes->get('delete/(:num)', 'User::delete/$1');
+});
