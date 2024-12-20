@@ -1,7 +1,7 @@
 <?= $this->extend('layout/main') ?>
 <?= $this->section('content') ?>
 
-<h1>Tenant Listings</h1>
+<h1>Tenants</h1>
 <?php if (session()->getFlashdata('status') && session()->getFlashdata('message')): ?>
     <div class="alert alert-<?= session()->getFlashdata('status') === 'success' ? 'success' : 'danger' ?> alert-dismissible fade show" role="alert">
         <?= esc(session()->getFlashdata('message')) ?>

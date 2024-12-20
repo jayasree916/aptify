@@ -14,6 +14,7 @@
             <a href="<?= base_url('/receipts') ?>" class="list-group-item list-group-item-action">Receipts</a>
             <a href="<?= base_url('/payments') ?>" class="list-group-item list-group-item-action">Payments</a>
             <a href="<?= base_url('/maintenance') ?>" class="list-group-item list-group-item-action">Maintenance</a>
+            <a href="<?= base_url('/logout') ?>" class="list-group-item list-group-item-action text-danger">Logout</a>
         </div>
     </div>
 </div>
