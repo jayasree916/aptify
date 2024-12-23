@@ -19,7 +19,7 @@
             <th>Year</th>
             <th>Month</th>
             <th>Amount</th>
-            <th>Issued Date</th>
+            <th>Bill Date</th>
             <th>Due Date</th>
             <th>Paid Status</th>
             <th>Actions</th>

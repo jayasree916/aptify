@@ -47,7 +47,7 @@ class Apartment extends BaseController
             'contact_no' => $this->request->getPost('contact_no'),
             'block' => $this->request->getPost('block'),
             'type' => $this->request->getPost('type'),
-            'occupancy' => $this->request->getPost('occupancy'),
+            'occupancy' => 'Vacant',
             'created_by' => session()->get('user_id'), // Assuming user_id is in session
             'updated_by' => session()->get('user_id'),
             'created_at' => date('Y-m-d H:i:s'),

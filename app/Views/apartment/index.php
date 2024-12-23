@@ -19,7 +19,6 @@
             <th>Contact Number</th>
             <th>Block</th>
             <th>Type</th>
-            <th>Occupancy</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -32,10 +31,8 @@
                 <td><?= esc($apartment['contact_no']) ?></td>
                 <td><?= esc($apartment['block']) ?></td>
                 <td><?= esc($apartment['type']) ?></td>
-                <td><?= esc($apartment['occupancy']) ?></td>
                 <td>
-                    <a href="<?= base_url('/apartment/edit/' . $apartment['id']) ?>" class="btn btn-warning">Edit</a>
-                    <a href="<?= base_url('/apartment/delete/' . $apartment['id']) ?>" class="btn btn-danger">Delete</a>
+                    <a href="<?= base_url('/apartment/view/' . $apartment['id']) ?>" class="btn btn-info">View</a>
                 </td>
             </tr>
         <?php endforeach; ?>

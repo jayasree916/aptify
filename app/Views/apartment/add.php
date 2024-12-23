@@ -38,14 +38,11 @@
 
     <div class="form-group">
         <label for="type">Type</label>
-        <input type="text" class="form-control" id="type" name="type" value="<?= old('type') ?>" required style="text-transform: capitalize;">
-    </div>
-
-    <div class="form-group">
-        <label for="occupancy">Occupancy</label>
-        <select class="form-control" id="occupancy" name="occupancy" required>
-            <option value="vacant" <?= old('occupancy') == 'vacant' ? 'selected' : '' ?>>Vacant</option>
-            <option value="occupied" <?= old('occupancy') == 'occupied' ? 'selected' : '' ?>>Occupied</option>
+        <select class="form-control" id="type" name="type" required>
+            <option value="" <?= old('type') == '' ? 'selected' : '' ?>>Select</option>
+            <option value="1BHK" <?= old('type') == '1BHK' ? 'selected' : '' ?>>1BHK</option>
+            <option value="2BHK" <?= old('type') == '2BHK' ? 'selected' : '' ?>>2BHK</option>
+            <option value="3BHK" <?= old('type') == '3BHK' ? 'selected' : '' ?>>3BHK</option>
         </select>
     </div>
 

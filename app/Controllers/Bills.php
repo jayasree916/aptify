@@ -103,7 +103,8 @@ class Bills extends BaseController
             }
 
             // Generate a unique bill number
-            $billNumber = 'BILL-' . $year . '-' . $month . '-' . $apartment['id'];
+            $project_id = '1';
+            $billNumber = 'BILL-' . $project_id. '/' . $apartment['id'] . '/'.$year . '/' . $month;
 
             // Insert into bills table
             $billData = [
