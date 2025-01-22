@@ -32,7 +32,7 @@
                 <td><?= esc($apartment['block']) ?></td>
                 <td><?= esc($apartment['type']) ?></td>
                 <td>
-                    <a href="<?= base_url('/apartment/view/' . $apartment['id']) ?>" class="btn btn-info">View</a>
+                    <a href="<?= base_url('/apartment/apartment-details/' . $apartment['id']) ?>" class="btn btn-info">View</a>
                 </td>
             </tr>
         <?php endforeach; ?>

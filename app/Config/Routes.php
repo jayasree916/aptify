@@ -22,6 +22,8 @@ $routes->group('apartment', ['namespace' => 'App\Controllers'], function ($route
     $routes->get('edit/(:num)', 'Apartment::edit/$1');
     $routes->put('edit/(:num)', 'Apartment::update/$1');
     $routes->get('delete/(:num)', 'Apartment::delete/$1');
+    $routes->get('view/(:num)', 'Apartment::view/$1');
+    $routes->get('apartment-details/(:num)', 'Apartment::apartmentDetails/$1');
 });
 
 $routes->group('tenants', ['namespace' => 'App\Controllers'], function ($routes) {
@@ -68,3 +70,27 @@ $routes->group('users', ['namespace' => 'App\Controllers'], function ($routes) {
     $routes->put('edit/(:num)', 'User::update/$1');
     $routes->get('delete/(:num)', 'User::delete/$1');
 });
+
+// Receipt Module
+$routes->group('receipts', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('/', 'Receipts::index'); // List all receipts
+    $routes->get('add', 'Receipts::add'); // Form to add a new receipt
+    $routes->post('store', 'Receipts::store'); // Save the new receipt
+    $routes->get('view/(:num)', 'Receipts::view/$1'); // View details of a specific receipt
+    $routes->get('edit/(:num)', 'Receipts::edit/$1'); // Form to edit a specific receipt
+    $routes->post('update/(:num)', 'Receipts::update/$1'); // Update a specific receipt
+    $routes->get('delete/(:num)', 'Receipts::delete/$1'); // Delete a specific receipt
+});
+
+// Payment Module
+$routes->group('payments', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('/', 'Payments::index'); // List all payments
+    $routes->get('add', 'Payments::add'); // Form to add a new payment
+    $routes->post('store', 'Payments::store'); // Save the new payment
+    $routes->get('view/(:num)', 'Payments::view/$1'); // View details of a specific payment
+    $routes->get('edit/(:num)', 'Payments::edit/$1'); // Form to edit a specific payment
+    $routes->post('update/(:num)', 'Payments::update/$1'); // Update a specific payment
+    $routes->get('delete/(:num)', 'Payments::delete/$1'); // Delete a specific payment
+});
+
+$routes->post('billing/process-payment', 'Collections::processPayment');

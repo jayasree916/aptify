@@ -22,7 +22,7 @@
             <th>Bill Date</th>
             <th>Due Date</th>
             <th>Paid Status</th>
-            <th>Actions</th>
+            <!-- <th>Actions</th> -->
         </tr>
     </thead>
     <tbody>
@@ -37,10 +37,10 @@
                 <td><?= esc(date('d/m/Y', strtotime($bill['issued_date']))) ?></td>
                 <td><?= esc(date('d/m/Y', strtotime($bill['due_date']))) ?></td>
                 <td><?= $bill['paid'] ? 'Paid' : 'Pending' ?></td>
-                <td>
+                <!-- <td>
                     <a href="<?= base_url('/billing/edit/' . $bill['id']) ?>" class="btn btn-warning">Edit</a>
                     <a href="<?= base_url('/billing/delete/' . $bill['id']) ?>" class="btn btn-danger">Delete</a>
-                </td>
+                </td> -->
             </tr>
         <?php endforeach; ?>
     </tbody>
