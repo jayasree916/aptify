@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\ApartmentModel;
 use App\Models\TenantModel;
 use App\Models\BillModel;
+use App\Models\PaymentModeModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Apartment extends BaseController
@@ -13,6 +14,8 @@ class Apartment extends BaseController
     protected $apartmentModel;
     protected $tenantModel;
     protected $billModel;
+    protected $paymentModeModel;
+
 
 
     public function __construct()
@@ -20,6 +23,7 @@ class Apartment extends BaseController
         $this->apartmentModel = new ApartmentModel();
         $this->tenantModel = new TenantModel();
         $this->billModel = new BillModel();
+        $this->paymentModeModel = new PaymentModeModel();
     }
     public function index()
     {
@@ -40,8 +44,7 @@ class Apartment extends BaseController
             'address' => 'required',
             'contact_no' => 'required',
             'block' => 'required',
-            'type' => 'required',
-            'occupancy' => 'required',
+            'type' => 'required'
         ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
@@ -60,7 +63,6 @@ class Apartment extends BaseController
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-print_r($apartmentData); die();
         $this->apartmentModel->save($apartmentData);
         return redirect()->to('/apartment');
     }
@@ -79,8 +81,7 @@ print_r($apartmentData); die();
             'owner_name' => 'required',
             'address' => 'required',
             'block' => 'required',
-            'type' => 'required',
-            'occupancy' => 'required',
+            'type' => 'required'
         ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
@@ -93,7 +94,7 @@ print_r($apartmentData); die();
             'contact_no' => $this->request->getPost('contact_no'),
             'block' => $this->request->getPost('block'),
             'type' => $this->request->getPost('type'),
-            'occupancy' => $this->request->getPost('occupancy'),
+            // 'occupancy' => $this->request->getPost('occupancy'),
             'updated_by' => $this->session->get('user_id'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
@@ -145,6 +146,7 @@ print_r($apartmentData); die();
             case 'bills':
                 $tabView = 'bills/bill_view';
                 $bills = $this->billModel->where('apartment_id', $apartmentId)->where('paid', '0')->findAll();
+                $payment_modes = $this->paymentModeModel->where('is_active', true)->findAll();
                 break;
             case 'payments':
                 $tabView = 'apartment/payments';
@@ -162,7 +164,8 @@ print_r($apartmentData); die();
             'activeTab' => $tab,
             'tabView' => $tabView,
             'tenants' => $tenants,
-            'bills' => $bills
+            'bills' => $bills,
+            'payment_modes' => $payment_modes,
         ]);
     }
 }

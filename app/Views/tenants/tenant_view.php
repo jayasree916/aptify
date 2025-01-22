@@ -5,7 +5,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
-<!-- <a href="<? //base_url('/tenants/add') ?>" class="btn btn-primary">Add New Tenant</a> -->
+<a href="<?= base_url('/tenants/add') ?>" class="btn btn-primary">Add New Tenant</a>
 
 <table class="table table-bordered mt-3">
     <thead>
