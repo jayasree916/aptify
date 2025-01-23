@@ -46,6 +46,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="paymentForm" method="post">
+                <?= csrf_field() ?>
                 <div class="modal-header">
                     <!-- Use a placeholder in the title -->
                     <h5 class="modal-title" id="paymentModalLabel">Payment Details for Bill No: <span id="modalBillNoPlaceholder"></span></h5>
@@ -53,9 +54,10 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="billId" name="bill_id" value="">
+                    <input type="hidden" id="billNo" name="bill_no" value="">
                     <div class="mb-3">
-                        <label for="paymentMethod" class="form-label">Payment Method</label>
-                        <select class="form-select" id="paymentMethod" name="payment_method" required>
+                        <label for="paymentMode" class="form-label">Payment Method</label>
+                        <select class="form-select" id="paymentMode" name="payment_mode" required>
                             <option value="" disabled selected>Select Payment Method</option>
                             <?php foreach ($payment_modes as $payment_mode) : ?>
                                 <option value="<?= $payment_mode['id']; ?>"><?= $payment_mode['mode']; ?></option>
@@ -92,6 +94,7 @@
         const modal = document.getElementById('paymentModal');
         const billNoPlaceholder = document.getElementById('modalBillNoPlaceholder');
         const billIdInput = document.getElementById('billId');
+        const billIdNo = document.getElementById('billNo');
         const paymentAmountInput = document.getElementById('paymentAmount');
 
         modal.addEventListener('show.bs.modal', function(event) {
@@ -103,7 +106,51 @@
             // Populate the modal content
             billNoPlaceholder.textContent = billNo;
             billIdInput.value = billId;
+            billIdInput.value = billNo;
             paymentAmountInput.value = amount;
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const paymentModal = document.getElementById('paymentModal');
+        const billIdInput = document.getElementById('billId');
+        const amountInput = document.getElementById('paymentAmount');
+
+        document.querySelectorAll('.pay-now-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const billId = button.getAttribute('data-id');
+                const amount = button.getAttribute('data-amount');
+
+                billIdInput.value = billId;
+                amountInput.value = amount;
+            });
+        });
+
+        // Handle form submission via AJAX (optional)
+        const paymentForm = document.getElementById('paymentForm');
+        paymentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(paymentForm);
+            const csrfToken = document.querySelector('input[name="csrf_test_name"]').value; // Replace 'csrf_test_name' with your token name
+            try {
+                const response = await fetch('<?= base_url("/billing/process-payment") ?>', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: formData
+                });
+                const result = await response.json();
+                if (result.status === 'success') {
+                    alert('Payment successful!');
+                    location.reload();
+                } else {
+                    alert('Payment failed: ' + result.message);
+                }
+            } catch (error) {
+                alert('An error occurred. Please try again.' + error.message);
+            }
         });
     });
 </script>

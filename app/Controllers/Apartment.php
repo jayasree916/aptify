@@ -136,6 +136,7 @@ class Apartment extends BaseController
         $tabView = '';
         $tenants = '';
         $bills = '';
+        $payment_modes = '';
 
         // Select the appropriate view for the tab
         switch ($tab) {

@@ -12,7 +12,18 @@ class CollectionsModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'date',
+        'trans_type',
+        'payment_mode',
+        'billing_type',
+        'amount',
+        'paid_by',
+        'Remarks',
+        'created_by',
+        'created_at',
+        'updated_by',
+        'updated_at',];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
