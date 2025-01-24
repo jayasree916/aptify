@@ -14,6 +14,9 @@
     <li class="nav-item" role="presentation">
         <a class="nav-link <?= ($activeTab === 'payments') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=payments') ?>" role="tab">Payment Status</a>
     </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= ($activeTab === 'advance') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=advance') ?>" role="tab">Advance Payment</a>
+    </li>
 </ul>
 
 <div class="tab-content mt-3" id="apartmentTabContent">

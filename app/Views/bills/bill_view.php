@@ -142,6 +142,7 @@
                     body: formData
                 });
                 const result = await response.json();
+                console.log(result);
                 if (result.status === 'success') {
                     alert('Payment successful!');
                     location.reload();

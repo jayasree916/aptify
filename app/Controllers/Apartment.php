@@ -152,6 +152,9 @@ class Apartment extends BaseController
             case 'payments':
                 $tabView = 'apartment/payments';
                 break;
+            case 'advance':
+                $tabView = 'bills/advance';
+                break;
             case 'apartment':
             default:
                 $tabView = 'apartment/apartment_details';

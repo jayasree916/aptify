@@ -50,19 +50,37 @@ class Collections extends BaseController
             'updated_by' => $this->session->get('user_id'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
+        $update_data = [
+            'paid' => '1',
+            'paid_at' => date('Y-m-d H:i:s'),
+        ];
+        $db = \Config\Database::connect(); // Get the database connection
+        $db->transStart(); // Start the transaction
+        $insertSuccess = $this->collectionsModel->insert($data);
+        if($insertSuccess) {
+            $updateSuccess = $this->billModel->update($this->request->getPost('bill_id'), $update_data);
+            if($updateSuccess) {
+                $db->transCommit(); // Commit the transaction
+                return $this->response->setJSON([
+                    'status' =>'success',
+                   'message' => 'Payment recorded successfully.',
+                ]);
+            } else {
+                $db->transRollback(); // Rollback the transaction
+                return $this->response->setJSON([
+                    'status' => 'error',
+                   'message' => 'Failed to update bill status.',
+                ]);
+            }
 
-        // Insert data into collections table
-        if ($this->collectionsModel->insert($data)) {
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => 'Payment recorded successfully.',
-            ]);
         } else {
+            $db->transRollback(); // Rollback the transaction
             return $this->response->setJSON([
                 'status' => 'error',
-                'message' => 'Failed to record payment.',
+               'message' => 'Failed to record payment.',
             ]);
         }
+        
     }
 
 }

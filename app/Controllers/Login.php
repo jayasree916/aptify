@@ -14,7 +14,8 @@ class Login extends BaseController
     }
     public function authenticate()
     {
-        $session = session();
+        echo "zssdsdsa"; die();
+       // $session = session();
         $userModel = new UserModel();
 
         $username = $this->request->getPost('username');
@@ -27,7 +28,7 @@ class Login extends BaseController
             // Verify the password
             if (password_verify($password, $user['password'])) {
                 // Set session data
-                $session->set([
+                $this->session->set([
                     'user_id' => $user['id'],
                     'username' => $user['username'],
                     'name' => $user['name'],
@@ -45,8 +46,8 @@ class Login extends BaseController
 
     public function logout()
     {
-        $session = session();
-        $session->destroy();
+       // $session = session();
+        $this->session->destroy();
         return redirect()->to('/login');
     }
 }
