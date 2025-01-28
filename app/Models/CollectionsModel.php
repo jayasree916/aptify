@@ -18,6 +18,8 @@ class CollectionsModel extends Model
         'payment_mode',
         'billing_type',
         'amount',
+        'bill_id',
+        'bill_no',
         'paid_by',
         'Remarks',
         'created_by',

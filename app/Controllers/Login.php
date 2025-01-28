@@ -14,7 +14,6 @@ class Login extends BaseController
     }
     public function authenticate()
     {
-        echo "zssdsdsa"; die();
        // $session = session();
         $userModel = new UserModel();
 

@@ -95,3 +95,4 @@ $routes->group('payments', ['namespace' => 'App\Controllers'], function ($routes
 });
 
 $routes->post('billing/process-payment', 'Collections::processPayment');
+$routes->post('billing/advance-payment', 'Collections::advancePayment');

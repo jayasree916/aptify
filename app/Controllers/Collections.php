@@ -83,4 +83,52 @@ class Collections extends BaseController
         
     }
 
+    public function advancePayment()
+    {
+        $validation = \Config\Services::validation();
+        $validation->setRules([
+            'date_of_payment' => 'required|valid_date',
+            'payment_mode' => 'required|integer',
+            'amount' => 'required|decimal',
+            'paid_by' => 'required|string|max_length[255]',
+            'narration' => 'string|max_length[255]',
+        ]);
+
+        if (!$validation->withRequest($this->request)->run()) {
+            $errors = $validation->getErrors();
+            return redirect()->back()->withInput()->with('errors', $errors);
+            // return redirect()->back()->withInput()->with('status', 'danger')->with('message', 'Validation failed.')->with('errors', $errors);
+        }
+
+        // Collect data from the form
+        $data = [
+            'date' => $this->request->getPost('date_of_payment'),
+            'bill_no' => '123',
+            'trans_type' => '3',
+            'payment_mode' => $this->request->getPost('payment_mode'),
+            'billing_type' => '0',
+            'amount' => $this->request->getPost('amount'),
+            'paid_by' => $this->request->getPost('paid_by'),
+            'Remarks' => $this->request->getPost('narration'),
+            'created_by' => $this->session->get('user_id'), // Assuming user_id is stored in the session
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_by' => $this->session->get('user_id'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ];
+        
+        if ($this->collectionsModel->insert($data)) {
+            
+                return $this->response->setJSON([
+                    'status' => 'success',
+                    'message' => 'Advance payment recorded successfully.',
+                ]);
+            
+        } else {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Failed to record payment.',
+            ]);
+        }
+    }
+
 }

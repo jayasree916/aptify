@@ -11,9 +11,9 @@
     <li class="nav-item" role="presentation">
         <a class="nav-link <?= ($activeTab === 'bills') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=bills') ?>" role="tab">Generated Bills</a>
     </li>
-    <li class="nav-item" role="presentation">
+    <!-- <li class="nav-item" role="presentation">
         <a class="nav-link <?= ($activeTab === 'payments') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=payments') ?>" role="tab">Payment Status</a>
-    </li>
+    </li> -->
     <li class="nav-item" role="presentation">
         <a class="nav-link <?= ($activeTab === 'advance') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=advance') ?>" role="tab">Advance Payment</a>
     </li>

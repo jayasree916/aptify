@@ -154,6 +154,7 @@ class Apartment extends BaseController
                 break;
             case 'advance':
                 $tabView = 'bills/advance';
+                $payment_modes = $this->paymentModeModel->where('is_active', true)->findAll();
                 break;
             case 'apartment':
             default:

@@ -94,7 +94,7 @@
         const modal = document.getElementById('paymentModal');
         const billNoPlaceholder = document.getElementById('modalBillNoPlaceholder');
         const billIdInput = document.getElementById('billId');
-        const billIdNo = document.getElementById('billNo');
+        const billNoInput = document.getElementById('billNo');
         const paymentAmountInput = document.getElementById('paymentAmount');
 
         modal.addEventListener('show.bs.modal', function(event) {
@@ -106,7 +106,7 @@
             // Populate the modal content
             billNoPlaceholder.textContent = billNo;
             billIdInput.value = billId;
-            billIdInput.value = billNo;
+            billNoInput.value = billNo;
             paymentAmountInput.value = amount;
         });
     });
@@ -114,14 +114,17 @@
     document.addEventListener('DOMContentLoaded', () => {
         const paymentModal = document.getElementById('paymentModal');
         const billIdInput = document.getElementById('billId');
+        const billNoInput = document.getElementById('billNo');
         const amountInput = document.getElementById('paymentAmount');
 
         document.querySelectorAll('.pay-now-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const billId = button.getAttribute('data-id');
+                const billNo = button.getAttribute('data-bill-no');
                 const amount = button.getAttribute('data-amount');
 
                 billIdInput.value = billId;
+                billNoInput.value = billNo;
                 amountInput.value = amount;
             });
         });
