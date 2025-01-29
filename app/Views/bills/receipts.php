@@ -40,6 +40,9 @@
                 <th colspan="4" class="text-end">Total Amount:</th>
                 <th colspan="2" class="text-end"><strong><?= esc(number_format($bill['amount'], 2)) ?></strong></th>
             </tr>
+            <tr>
+                <td colspan="6">&nbsp;</td>
+            </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
