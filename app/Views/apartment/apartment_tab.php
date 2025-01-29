@@ -11,11 +11,11 @@
     <li class="nav-item" role="presentation">
         <a class="nav-link <?= ($activeTab === 'bills') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=bills') ?>" role="tab">Pending Bills</a>
     </li>
-    <!-- <li class="nav-item" role="presentation">
-        <a class="nav-link <?= ($activeTab === 'payments') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=payments') ?>" role="tab">Payment Status</a>
-    </li> -->
     <li class="nav-item" role="presentation">
         <a class="nav-link <?= ($activeTab === 'advance') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=advance') ?>" role="tab">Advance Payment</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link <?= ($activeTab === 'payments') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=payments') ?>" role="tab">Receipts</a>
     </li>
 </ul>
 

@@ -159,7 +159,15 @@ class Apartment extends BaseController
                 $payment_modes = $this->paymentModeModel->where('is_active', true)->findAll();
                 break;
             case 'payments':
-                $tabView = 'apartment/payments';
+                $tabView = 'bills/receipts';
+                $bills = $this->billModel->where('apartment_id', $apartmentId)->where('paid', '1')->findAll();
+                $i = 0;
+                foreach ($bills as $bill) {
+                    $items = $this->billItemModel->where('bill_id', $bill['id'])->findAll();
+                    $bills[$i]['items'] = $items;
+                    $i++;
+                }
+                $payment_modes = $this->paymentModeModel->where('is_active', true)->findAll();
                 break;
             case 'advance':
                 $tabView = 'bills/advance';
