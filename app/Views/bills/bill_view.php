@@ -7,40 +7,62 @@
 <?php endif; ?>
 
 <table class="table table-bordered mt-3">
-    <thead>
-        <tr>
-            <th>Bill No</th>
-            <th>Year</th>
-            <th>Month</th>
-            <th>Amount</th>
-            <th>Bill Date</th>
-            <th>Due Date</th>
-            <th>&nbsp;</th>
-        </tr>
-    </thead>
     <tbody>
         <?php foreach ($bills as $bill): ?>
+            <!-- Bill Header -->
             <tr>
+                <th colspan="5" class="text-center bg-primary text-white">Bill Summary</th>
+            </tr>
+            <tr>
+                <th>Bill No:</th>
                 <td><?= esc($bill['bill_no']) ?></td>
+                <th>Year:</th>
                 <td><?= esc($bill['year']) ?></td>
-                <td><?= esc($bill['month']) ?></td>
-                <td><?= esc(number_format($bill['amount'], 2)) ?></td>
-                <td><?= esc(date('d/m/Y', strtotime($bill['issued_date']))) ?></td>
-                <td><?= esc(date('d/m/Y', strtotime($bill['due_date']))) ?></td>
-                <td><button
-                        type="button"
+                <td rowspan="2" class="text-center">
+                    <button type="button"
                         class="btn btn-primary pay-now-btn"
                         data-id="<?= esc($bill['id']) ?>"
                         data-amount="<?= esc($bill['amount']) ?>"
                         data-bill-no="<?= esc($bill['bill_no']) ?>"
+                        data-apartment-id="<?= esc($bill['apartment_id']) ?>"
                         data-bs-toggle="modal"
                         data-bs-target="#paymentModal">
                         Pay Now
-                    </button></td>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <th>Month:</th>
+                <td><?= esc($bill['month']) ?></td>
+                <th>Bill Date:</th>
+                <td><?= esc(date('d/m/Y', strtotime($bill['issued_date']))) ?></td>
+            </tr>
+            <tr>
+                <th>Due Date:</th>
+                <td colspan="4" class="text-danger"><strong><?= esc(date('d/m/Y', strtotime($bill['due_date']))) ?></strong></td>
+            </tr>
+
+            <!-- Itemized Bill -->
+            <tr>
+                <th colspan="3" class="text-center bg-secondary text-white">Item</th>
+                <th colspan="2" class="text-center bg-secondary text-white">Amount</th>
+            </tr>
+            <?php foreach ($bill['items'] as $item): ?>
+                <tr>
+                    <td colspan="3"><?= esc($item['item_name']) ?></td>
+                    <td colspan="2" class="text-end"><?= esc(number_format($item['amount'], 2)) ?></td>
+                </tr>
+            <?php endforeach; ?>
+
+            <!-- Total Amount -->
+            <tr>
+                <th colspan="3" class="text-end">Total</th>
+                <th colspan="2" class="text-end"><strong><?= esc(number_format($bill['amount'], 2)) ?></strong></th>
             </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
+
 <!-- Modal -->
 <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -55,6 +77,7 @@
                 <div class="modal-body">
                     <input type="hidden" id="billId" name="bill_id" value="">
                     <input type="hidden" id="billNo" name="bill_no" value="">
+                    <input type="hidden" id="apartmentId" name="apartment_id" value="">
                     <div class="mb-3">
                         <label for="paymentMode" class="form-label">Payment Method</label>
                         <select class="form-select" id="paymentMode" name="payment_mode" required>
@@ -96,18 +119,21 @@
         const billIdInput = document.getElementById('billId');
         const billNoInput = document.getElementById('billNo');
         const paymentAmountInput = document.getElementById('paymentAmount');
+        const apartmentIdInput = document.getElementById('apartmentId');
 
         modal.addEventListener('show.bs.modal', function(event) {
             const button = event.relatedTarget; // Button that triggered the modal
             const billNo = button.getAttribute('data-bill-no');
             const billId = button.getAttribute('data-id');
             const amount = button.getAttribute('data-amount');
+            const apartmentId = button.getAttribute('data-apartment-id');
 
             // Populate the modal content
             billNoPlaceholder.textContent = billNo;
             billIdInput.value = billId;
             billNoInput.value = billNo;
             paymentAmountInput.value = amount;
+            apartmentIdInput.value = apartmentId;
         });
     });
 
@@ -116,16 +142,19 @@
         const billIdInput = document.getElementById('billId');
         const billNoInput = document.getElementById('billNo');
         const amountInput = document.getElementById('paymentAmount');
+        const apartmentIdInput = document.getElementById('apartmentId');
 
         document.querySelectorAll('.pay-now-btn').forEach(button => {
             button.addEventListener('click', () => {
                 const billId = button.getAttribute('data-id');
                 const billNo = button.getAttribute('data-bill-no');
                 const amount = button.getAttribute('data-amount');
+                const apartmentId = button.getAttribute('data-apartment-id');
 
                 billIdInput.value = billId;
                 billNoInput.value = billNo;
                 amountInput.value = amount;
+                apartmentIdInput.value = apartmentId;
             });
         });
 

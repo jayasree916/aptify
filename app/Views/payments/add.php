@@ -1,19 +1,25 @@
-<h1>Advance Payment</h1>
-<?php
-if (session()->getFlashdata('error')): ?>
+<?= $this->extend('layout/main') ?>
+<?= $this->section('content') ?>
+
+<h1>Vouchers</h1>
+<?php if (session()->getFlashdata('error')): ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <?= esc(session()->getFlashdata('error')) ?>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
-<?php elseif (session()->getFlashdata('success')) : ?>
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <?= esc(session()->getFlashdata('success')) ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
 <?php endif; ?>
-<form action="<?= base_url('/billing/advance-payment') ?>" method="post">
+<form action="<?= base_url('/payments/store') ?>" method="post">
     <?= csrf_field() ?>
-    <input type="hidden" class="form-control" id="apartmentId" name="apartment_id" value="<?= $apartment['id']; ?>">
+
+    <div class="form-group">
+        <label for="paymentMode" class="form-label">Item</label>
+        <select class="form-select" id="billType" name="bill_type" required>
+            <option value="" disabled selected>Select Item</option>
+            <?php foreach ($bill_types as $bill_type) : ?>
+                <option value="<?= $bill_type['id']; ?>"><?= $bill_type['billing_type']; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
     <div class="form-group">
         <label for="paymentMode" class="form-label">Payment Method</label>
         <select class="form-select" id="paymentMode" name="payment_mode" required>
@@ -32,8 +38,8 @@ if (session()->getFlashdata('error')): ?>
         <input type="date" class="form-control" id="dateOfPayment" name="date_of_payment" required>
     </div>
     <div class="form-group">
-        <label for="paidBy" class="form-label">Paid By</label>
-        <input type="text" class="form-control" id="paidBy" name="paid_by" placeholder="Enter payer's name" required>
+        <label for="paidTo" class="form-label">Paid To</label>
+        <input type="text" class="form-control" id="paidTo" name="paid_to" placeholder="Enter Receiver's name" required>
     </div>
     <div class="form-group">
         <label for="narration" class="form-label">Narration</label>
@@ -42,3 +48,5 @@ if (session()->getFlashdata('error')): ?>
 
     <button type="submit" class="btn btn-success">Pay Now</button>
 </form>
+
+<?= $this->endSection() ?>

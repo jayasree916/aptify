@@ -7,6 +7,7 @@ use App\Models\ApartmentModel;
 use App\Models\TenantModel;
 use App\Models\BillModel;
 use App\Models\PaymentModeModel;
+use App\Models\BillItemModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Apartment extends BaseController
@@ -15,6 +16,7 @@ class Apartment extends BaseController
     protected $tenantModel;
     protected $billModel;
     protected $paymentModeModel;
+    protected $billItemModel;
 
 
 
@@ -24,6 +26,7 @@ class Apartment extends BaseController
         $this->tenantModel = new TenantModel();
         $this->billModel = new BillModel();
         $this->paymentModeModel = new PaymentModeModel();
+        $this->billItemModel = new BillItemModel();
     }
     public function index()
     {
@@ -147,6 +150,12 @@ class Apartment extends BaseController
             case 'bills':
                 $tabView = 'bills/bill_view';
                 $bills = $this->billModel->where('apartment_id', $apartmentId)->where('paid', '0')->findAll();
+                $i=0;
+                foreach ($bills as $bill) {
+                    $items = $this->billItemModel->where('bill_id', $bill['id'])->findAll();
+                    $bills[$i]['items'] = $items;
+                    $i++;
+                }
                 $payment_modes = $this->paymentModeModel->where('is_active', true)->findAll();
                 break;
             case 'payments':

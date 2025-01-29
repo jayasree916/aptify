@@ -9,7 +9,7 @@
         <a class="nav-link <?= ($activeTab === 'tenants') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=tenants') ?>" role="tab">Tenants</a>
     </li>
     <li class="nav-item" role="presentation">
-        <a class="nav-link <?= ($activeTab === 'bills') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=bills') ?>" role="tab">Generated Bills</a>
+        <a class="nav-link <?= ($activeTab === 'bills') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=bills') ?>" role="tab">Pending Bills</a>
     </li>
     <!-- <li class="nav-item" role="presentation">
         <a class="nav-link <?= ($activeTab === 'payments') ? 'active' : '' ?>" href="<?= site_url('apartment/apartment-details/' . $apartment['id'] . '?tab=payments') ?>" role="tab">Payment Status</a>

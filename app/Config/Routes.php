@@ -84,10 +84,10 @@ $routes->group('receipts', ['namespace' => 'App\Controllers'], function ($routes
 
 // Payment Module
 $routes->group('payments', ['namespace' => 'App\Controllers'], function ($routes) {
-    $routes->get('/', 'Payments::index'); // List all payments
-    $routes->get('add', 'Payments::add'); // Form to add a new payment
+    $routes->get('/', 'Collections::index'); // List all payments
+    $routes->get('add', 'Collections::add'); // Form to add a new payment
     $routes->post('store', 'Collections::store'); // Save the new payment
-    $routes->get('store', 'Collections::store'); // Save the new payment
+    //$routes->get('store', 'Collections::store'); // Save the new payment
     $routes->get('view/(:num)', 'Payments::view/$1'); // View details of a specific payment
     $routes->get('edit/(:num)', 'Payments::edit/$1'); // Form to edit a specific payment
     $routes->post('update/(:num)', 'Payments::update/$1'); // Update a specific payment
