@@ -33,12 +33,15 @@ class Tenants extends BaseController
 
         // Pass the formatted data to the view
         $data['tenants'] = $tenants;
+        $data['menuItems'] = $this->menuItems;
         return view('tenants/index', $data);
     }
     public function add()
     {
         $vacantApartments = $this->apartmentModel->where('occupancy', 'vacant')->findAll();
-        return view('tenants/add', ['vacantApartments' => $vacantApartments]);
+        $data['menuItems'] = $this->menuItems;
+        $data['vacantApartments'] = $vacantApartments;
+        return view('tenants/add', $data);
     }
 
     public function create()
@@ -59,12 +62,11 @@ class Tenants extends BaseController
         ->where('occupancy', 'vacant')
         ->orWhere('id', $tenant['apartment_id']) // Include current apartment if already assigned
         ->findAll();
-
+        $data['menuItems'] = $this->menuItems;
+        $data['tenant'] = $tenant;
+        $data['vacantApartments'] = $vacantApartments;
         // Pass data to the view
-        return view('tenants/edit', [
-            'tenant' => $tenant,
-            'vacantApartments' => $vacantApartments,
-        ]);
+        return view('tenants/edit', $data);
     }
 
     public function update($id)

@@ -18,12 +18,14 @@ class UserRoles extends BaseController
     public function index()
     {
         $data['roles'] = $this->userRolesModel->findAll();
+        $data['menuItems'] = $this->menuItems;
         return view('user_roles/index', $data);
     }
 
     public function add()
     {
-        return view('user_roles/add');
+        $data['menuItems'] = $this->menuItems;
+        return view('user_roles/add', $data);
     }
 
     public function create()
@@ -50,6 +52,7 @@ class UserRoles extends BaseController
     public function edit($id)
     {
         $data['role'] = $this->userRolesModel->find($id);
+        $data['menuItems'] = $this->menuItems;
         return view('user_roles/edit', $data);
     }
 

@@ -18,12 +18,15 @@ class BillingTypes extends BaseController
     public function index()
     {
         $billingTypes = $this->billingTypeModel->findAll();
-        return view('billing_types/index', ['billingTypes' => $billingTypes]);
+        $data['menuItems'] = $this->menuItems;
+        $data['billingTypes'] = $billingTypes;
+        return view('billing_types/index', $data);
     }
 
     public function add()
     {
-        return view('billing_types/add');
+        $data['menuItems'] = $this->menuItems;
+        return view('billing_types/add', $data);
     }
 
     public function store()

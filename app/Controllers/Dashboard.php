@@ -21,7 +21,6 @@ class Dashboard extends BaseController
             'user' => $user,
             'menuItems' => $this->menuItems, // ✅ Pass menu items
         ];
-        print_r($data); die();
         return view('content/dashboard', $data);
     }
 

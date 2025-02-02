@@ -33,6 +33,7 @@ class Collections extends BaseController
             ->join('payment_modes', 'payment_modes.id = collections.payment_mode', 'left')
             ->where('collections.trans_type', '2')
             ->findAll();
+        $data['menuItems'] = $this->menuItems;
         return view('payments/index', $data);
     }
 
@@ -40,6 +41,7 @@ class Collections extends BaseController
     {
         $data['bill_types'] = $this->billingTypeModel->findAll();
         $data['payment_modes'] = $this->paymentModeModel->findAll();
+        $data['menuItems'] = $this->menuItems;
         return view('payments/add', $data);
     }
 

@@ -45,7 +45,7 @@ class MenuModel extends Model
     protected $afterDelete    = [];
     public function getMenuByRole($role) {
         $res = $this->join('menu_roles', 'menus.id = menu_roles.menu_id')
-                        ->where('menu_roles.role_id', $role)->findAll();
+                        ->where('menu_roles.role_id', $role)->orderBy('display_order')->findAll();
         return $res;
     }
 }

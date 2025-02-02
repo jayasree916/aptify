@@ -31,11 +31,13 @@ class Apartment extends BaseController
     public function index()
     {
         $data['apartments'] = $this->apartmentModel->findAll();
+        $data['menuItems'] = $this->menuItems;
         return view('apartment/index', $data);
     }
     public function add()
     {
-        return view('apartment/add');
+        $data['menuItems'] = $this->menuItems;
+        return view('apartment/add', $data);
     }
 
     public function create()
@@ -73,6 +75,7 @@ class Apartment extends BaseController
     public function edit($id)
     {
         $data['apartment'] = $this->apartmentModel->find($id);
+        $data['menuItems'] = $this->menuItems;
         return view('apartment/edit', $data);
     }
 
@@ -130,6 +133,7 @@ class Apartment extends BaseController
             // 'bills' => $billModel->where('apartment_id', $id)->findAll(),
             // 'payments' => $paymentModel->where('apartment_id', $id)->findAll(),
         ];
+        $data['menuItems'] = $this->menuItems;
 
         return view('apartment/apartment_tab', $data);
     }
@@ -188,6 +192,7 @@ class Apartment extends BaseController
             'tenants' => $tenants,
             'bills' => $bills,
             'payment_modes' => $payment_modes,
+            'menuItems'=> $this->menuItems,
         ]);
     }
 }

@@ -34,7 +34,9 @@ class Bills extends BaseController
         ->join('apartments', 'apartments.id = bills.apartment_id') // Adjust the foreign key relationship
         ->join('tenants','tenants.id = bills.tenant_id', 'left') // Adjust the foreign key relationship
         ->findAll();
-        return view('bills/index', ['bills' => $bills]);
+        $data['bills'] = $bills;
+        $data['menuItems'] = $this->menuItems;
+        return view('bills/index', $data);
     }
 
     public function add()
@@ -45,6 +47,7 @@ class Bills extends BaseController
         return view('bills/add', [
             'apartments' => $apartments,
             'billingTypes' => $billingTypes,
+            'menuItems' => $this->menuItems,
         ]);
     }
     public function generateMonthlyBills()

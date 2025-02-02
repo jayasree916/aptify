@@ -7,7 +7,7 @@
             <?php foreach ($menuItems as $menu) : ?>
                 <a href="<?= base_url($menu['url']) ?>" class="list-group-item list-group-item-action"><?= esc($menu['name']) ?></a>
             <?php endforeach; ?>
-            <a href="<?= base_url('/logout') ?>" class="list-group-item list-group-item-action text-danger">Logout</a>
+            <!-- <a href="<?= base_url('/logout') ?>" class="list-group-item list-group-item-action text-danger">Logout</a> -->
         </div>
     </div>
 </div>
