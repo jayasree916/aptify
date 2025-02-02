@@ -17,7 +17,12 @@ class Dashboard extends BaseController
         $userModel = new UserModel();
         $userId = session()->get('user_id');
         $user = $userModel->find($userId);
-        return view('content/dashboard', ['user' => $user]);
+        $data = [
+            'user' => $user,
+            'menuItems' => $this->menuItems, // ✅ Pass menu items
+        ];
+        print_r($data); die();
+        return view('content/dashboard', $data);
     }
 
 }

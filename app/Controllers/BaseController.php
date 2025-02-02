@@ -8,6 +8,7 @@ use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
+use App\Models\MenuModel;
 
 /**
  * Class BaseController
@@ -42,10 +43,18 @@ abstract class BaseController extends Controller
      * The creation of dynamic property is deprecated in PHP 8.2.
      */
      protected $session;
-
+    protected $menuItems = [];
+    protected $viewData = []; 
     /**
      * @return void
      */
+    public function __construct()
+    {
+        helper('menu');
+        service('menu', function () {
+            return $this->loadMenu();
+        });
+    }
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
@@ -54,6 +63,22 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         $this->session = \Config\Services::session();
-        log_message('info', 'Session service initialized: ' . get_class($this->session));
+        //log_message('info', 'Session service initialized: ' . get_class($this->session));
+        $this->loadMenu();
+    }
+
+    protected function loadMenu()
+    {
+        $role_id = $this->session->get('role_id'); // Get role ID from session
+
+        if ($role_id) {
+            $menuModel = new MenuModel();
+            $this->menuItems = $menuModel->getMenuByRole($role_id);
+        } else {
+            $this->menuItems = []; // No menu if no role
+        }
+
+        // Share menu items globally with all views
+        $this->viewData['menuItems'] = $this->menuItems;
     }
 }
