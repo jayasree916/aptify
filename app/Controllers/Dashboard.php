@@ -18,10 +18,22 @@ class Dashboard extends BaseController
         $userId = session()->get('user_id');
         $user = $userModel->find($userId);
         $data = [
-            'user' => $user,
+            'user' => $user, 
+            'apartment_count' => 0, //$this->getApartmentCount(),
+            'tenant_count' => 0, //$this->getTenantCount(),
+            'user_count' => 0, //$this->getUserCount(),
+            'billing_count' => 0, //$this->getBillingCount(),
+            'payment_received' => 0, //$this->getTotalPayments(),
+            'maintenance_requests' => 0, //$this->getMaintenanceRequests(),
             'menuItems' => $this->menuItems, // ✅ Pass menu items
         ];
+
         return view('content/dashboard', $data);
+        // $data = [
+        //     'user' => $user,
+            
+        // ];
+        // return view('content/dashboard', $data);
     }
 
 }
