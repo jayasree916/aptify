@@ -19,6 +19,7 @@ class UserModel extends Model
         'address',
         'email',
         'contact_no',
+        'user_role',
         'created_at',
         'updated_at'];
 

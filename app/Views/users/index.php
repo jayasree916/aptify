@@ -13,28 +13,25 @@
 <table class="table table-bordered mt-3">
     <thead>
         <tr>
-            <th>Apartment No</th>
             <th>Name</th>
             <th>Address</th>
             <th>Contact Number</th>
             <th>Email</th>
-            <th>Status</th>
+            <th>Role</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($apartments as $apartment): ?>
+        <?php foreach ($users as $user): ?>
             <tr>
-                <td><?= esc($apartment['apartment_no']) ?></td>
-                <td><?= esc($apartment['owner_name']) ?></td>
-                <td><?= esc($apartment['address']) ?></td>
-                <td><?= esc($apartment['contact_no']) ?></td>
-                <td><?= esc($apartment['block']) ?></td>
-                <td><?= esc($apartment['type']) ?></td>
-                <td><?= esc($apartment['occupancy']) ?></td>
+                <td><?= esc($user['name']) ?></td>
+                <td><?= esc($user['address']) ?></td>
+                <td><?= esc($user['contact_no']) ?></td>
+                <td><?= esc($user['email']) ?></td>
+                <td><?= esc($user['role_name']) ?></td>
                 <td>
-                    <a href="<?= base_url('/apartment/edit/' . $apartment['id']) ?>" class="btn btn-warning">Edit</a>
-                    <a href="<?= base_url('/apartment/delete/' . $apartment['id']) ?>" class="btn btn-danger">Delete</a>
+                    <a href="<?= base_url('/users/edit/' . $user['id']) ?>" class="btn btn-warning">Edit</a>
+                    <a href="<?= base_url('/users/delete/' . $user['id']) ?>" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         <?php endforeach; ?>

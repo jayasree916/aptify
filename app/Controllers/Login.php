@@ -22,7 +22,6 @@ class Login extends BaseController
 
         // Fetch user by username
         $user = $userModel->getUserByUsername($username);
-
         if ($user) {
             // Verify the password
             if (password_verify($password, $user['password'])) {

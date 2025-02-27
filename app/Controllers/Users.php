@@ -4,19 +4,24 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
+use App\Models\UserRolesModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Users extends BaseController
 {
     protected $userModel;
+    protected $userRolesModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->userRolesModel = new UserRolesModel();
     }
     public function index()
     {
-        $data['users'] = $this->userModel->findAll();
+        $data['users'] = $this->userModel->select('users.*, user_roles.role_name')
+        ->join('user_roles', 'user_roles.id = users.user_role', 'left')
+        ->findAll();
         $data['menuItems'] = $this->menuItems; // ✅ Pass menu items
         return view('users/index', $data);
     }
@@ -41,15 +46,17 @@ class Users extends BaseController
     // Show add user form
     public function add()
     {
-        return view('users/add');
+        $data['roles'] = $this->userRolesModel->findAll();
+        $data['menuItems'] = $this->menuItems; // ✅ Pass menu items
+        return view('users/add', $data);
     }
 
     // Create new user (POST)
     public function create()
     {
         $data = [
-            'username'   => $this->request->getPost('username'),
-            'password'   => password_hash($this->request->getPost('password'), PASSWORD_DEFAULT),
+            'username'   => $this->request->getPost('user_name'),
+            'password'   => password_hash('password', PASSWORD_DEFAULT),
             'name'       => $this->request->getPost('name'),
             'address'    => $this->request->getPost('address'),
             'email'      => $this->request->getPost('email'),
@@ -70,6 +77,8 @@ class Users extends BaseController
     public function edit($id)
     {
         $data['user'] = $this->userModel->find($id);
+        $data['roles'] = $this->userRolesModel->findAll();
+        $data['menuItems'] = $this->menuItems; // ✅ Pass menu items
         if (!$data['user']) {
             return redirect()->to('/users')->with('error', 'User not found.');
         }
@@ -85,7 +94,7 @@ class Users extends BaseController
         }
 
         $data = [
-            'username'   => $this->request->getPost('username'),
+            'username'   => $this->request->getPost('user_name'),
             'name'       => $this->request->getPost('name'),
             'address'    => $this->request->getPost('address'),
             'email'      => $this->request->getPost('email'),

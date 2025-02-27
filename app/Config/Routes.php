@@ -63,12 +63,12 @@ $routes->group('user-roles', ['namespace' => 'App\Controllers'], function ($rout
 });
 
 $routes->group('users', ['namespace' => 'App\Controllers'], function ($routes) {
-    $routes->get('/', 'User::index');
-    $routes->get('add', 'User::add');
-    $routes->post('add', 'User::create');
-    $routes->get('edit/(:num)', 'User::edit/$1');
-    $routes->put('edit/(:num)', 'User::update/$1');
-    $routes->get('delete/(:num)', 'User::delete/$1');
+    $routes->get('/', 'Users::index');
+    $routes->get('add', 'Users::add');
+    $routes->post('add', 'Users::create');
+    $routes->get('edit/(:num)', 'Users::edit/$1');
+    $routes->post('edit/(:num)', 'Users::update/$1');
+    $routes->get('delete/(:num)', 'Users::delete/$1');
 });
 
 // Receipt Module
