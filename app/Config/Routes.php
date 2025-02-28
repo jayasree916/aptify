@@ -96,3 +96,13 @@ $routes->group('payments', ['namespace' => 'App\Controllers'], function ($routes
 
 $routes->post('billing/process-payment', 'Collections::processPayment');
 $routes->post('billing/advance-payment', 'Collections::advancePayment');
+
+$routes->group('blocks', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('/', 'Blocks::index');
+    $routes->get('add', 'Blocks::add');
+    $routes->post('add', 'Blocks::create');
+    $routes->get('edit/(:num)', 'Blocks::edit/$1');
+    $routes->post('edit/(:num)', 'Blocks::update/$1');
+    $routes->get('delete/(:num)', 'Blocks::delete/$1');
+});
+
