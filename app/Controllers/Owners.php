@@ -4,25 +4,26 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\ApartmentModel;
+use App\Models\OwnerModel;
 use App\Models\TenantModel;
 use App\Models\BillModel;
 use App\Models\PaymentModeModel;
 use App\Models\BillItemModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class Apartment extends BaseController
+class Owners extends BaseController
 {
     protected $apartmentModel;
+    protected $ownerModel;
     protected $tenantModel;
     protected $billModel;
     protected $paymentModeModel;
     protected $billItemModel;
-
-
-
+    
     public function __construct()
     {
         $this->apartmentModel = new ApartmentModel();
+        $this->ownerModel = new OwnerModel();
         $this->tenantModel = new TenantModel();
         $this->billModel = new BillModel();
         $this->paymentModeModel = new PaymentModeModel();
@@ -30,14 +31,14 @@ class Apartment extends BaseController
     }
     public function index()
     {
-        $data['apartments'] = $this->apartmentModel->findAll();
+        $data['owners'] = $this->ownerModel->findAll();
         $data['menuItems'] = $this->menuItems;
-        return view('apartment/index', $data);
+        return view('owners/index', $data);
     }
     public function add()
     {
         $data['menuItems'] = $this->menuItems;
-        return view('apartment/add', $data);
+        return view('owners/add', $data);
     }
 
     public function create()
@@ -68,15 +69,15 @@ class Apartment extends BaseController
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-        $this->apartmentModel->save($apartmentData);
-        return redirect()->to('/apartment');
+        $this->ownerModel->save($apartmentData);
+        return redirect()->to('/owners');
     }
 
     public function edit($id)
     {
-        $data['apartment'] = $this->apartmentModel->find($id);
+        $data['owner'] = $this->ownerModel->find($id);
         $data['menuItems'] = $this->menuItems;
-        return view('apartment/edit', $data);
+        return view('owners/edit', $data);
     }
 
     public function update($id)
@@ -105,15 +106,15 @@ class Apartment extends BaseController
             'updated_at' => date('Y-m-d H:i:s'),
         ];
 
-        $this->apartmentModel->update($id, $apartmentData);
-        return redirect()->to('/apartment');
+        $this->ownerModel->update($id, $apartmentData);
+        return redirect()->to('/owners');
     }
     public function delete($id)
     {
         // Delete the apartment
-        $this->apartmentModel->delete($id);
+        $this->ownerModel->delete($id);
         // Redirect back to the apartment list
-        return redirect()->to('/apartment');
+        return redirect()->to('/owners');
     }
     public function view($id)
     {
@@ -124,7 +125,7 @@ class Apartment extends BaseController
 
         $apartment = $apartmentModel->find($id);
         if (!$apartment) {
-            return redirect()->to('/apartment')->with('status', 'danger')->with('message', 'Apartment not found.');
+            return redirect()->to('/owners')->with('status', 'danger')->with('message', 'Apartment not found.');
         }
 
         $data = [
@@ -135,7 +136,7 @@ class Apartment extends BaseController
         ];
         $data['menuItems'] = $this->menuItems;
 
-        return view('apartment/apartment_tab', $data);
+        return view('owners/apartment_tab', $data);
     }
     public function apartmentDetails($apartmentId)
     {
@@ -177,15 +178,15 @@ class Apartment extends BaseController
                 $tabView = 'bills/advance';
                 $payment_modes = $this->paymentModeModel->where('is_active', true)->findAll();
                 break;
-            case 'apartment':
+            case 'owners':
             default:
-                $tabView = 'apartment/apartment_details';
+                $tabView = 'owners/apartment_details';
                 break;
         }
 
-        $apartment = $this->apartmentModel->find($apartmentId);
+        $apartment = $this->ownerModel->find($apartmentId);
 
-        return view('apartment/apartment_tab', [
+        return view('owners/apartment_tab', [
             'apartment' => $apartment,
             'activeTab' => $tab,
             'tabView' => $tabView,

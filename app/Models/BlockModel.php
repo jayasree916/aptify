@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ApartmentModel extends Model
+class BlockModel extends Model
 {
-    protected $table            = 'apartments';
+    protected $table            = 'blocks';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['block_id', 'name', 'description', 'parking_type_id', 'apartment_type_id', 'created_by', 'updated_by', 'created_at', 'updated_at'];
+    protected $allowedFields    = ['name', 'description', 'created_by', 'updated_by'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

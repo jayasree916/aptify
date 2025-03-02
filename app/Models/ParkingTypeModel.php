@@ -4,15 +4,15 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class BlocksModel extends Model
+class ParkingTypeModel extends Model
 {
-    protected $table            = 'blocks';
+    protected $table            = 'parking_types';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['name', 'description', 'created_by', 'updated_by'];
+    protected $allowedFields    = [];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

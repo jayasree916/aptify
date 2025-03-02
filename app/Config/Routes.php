@@ -15,15 +15,15 @@ $routes->get('/logout', 'Login::logout');
 $routes->get('/dashboard', 'Dashboard::index'); // Optional: Protected route
 $routes->get('/add-user', 'Users::addUser');
 
-$routes->group('apartment', ['namespace' => 'App\Controllers'], function ($routes) {
-    $routes->get('/', 'Apartment::index');
-    $routes->get('add', 'Apartment::add');
-    $routes->post('add', 'Apartment::create');
-    $routes->get('edit/(:num)', 'Apartment::edit/$1');
-    $routes->put('edit/(:num)', 'Apartment::update/$1');
-    $routes->get('delete/(:num)', 'Apartment::delete/$1');
-    $routes->get('view/(:num)', 'Apartment::view/$1');
-    $routes->get('apartment-details/(:num)', 'Apartment::apartmentDetails/$1');
+$routes->group('owners', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('/', 'Owners::index');
+    $routes->get('add', 'Owners::add');
+    $routes->post('add', 'Owners::create');
+    $routes->get('edit/(:num)', 'Owners::edit/$1');
+    $routes->put('edit/(:num)', 'Owners::update/$1');
+    $routes->get('delete/(:num)', 'Owners::delete/$1');
+    $routes->get('view/(:num)', 'Owners::view/$1');
+    $routes->get('owner-details/(:num)', 'Owners::ownerDetails/$1');
 });
 
 $routes->group('tenants', ['namespace' => 'App\Controllers'], function ($routes) {
@@ -104,5 +104,14 @@ $routes->group('blocks', ['namespace' => 'App\Controllers'], function ($routes) 
     $routes->get('edit/(:num)', 'Blocks::edit/$1');
     $routes->post('edit/(:num)', 'Blocks::update/$1');
     $routes->get('delete/(:num)', 'Blocks::delete/$1');
+});
+
+$routes->group('apartments', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('/', 'Apartments::index');
+    $routes->get('add', 'Apartments::add');
+    $routes->post('add', 'Apartments::create');
+    $routes->get('edit/(:num)', 'Apartments::edit/$1');
+    $routes->post('edit/(:num)', 'Apartments::update/$1');
+    $routes->get('delete/(:num)', 'Apartments::delete/$1');
 });
 

@@ -3,20 +3,20 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
-use App\Models\BlocksModel;
+use App\Models\BlockModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Blocks extends BaseController
 {
-    protected $blocksModel;
+    protected $blockModel;
 
     public function __construct()
     {
-        $this->blocksModel = new BlocksModel();
+        $this->blockModel = new BlockModel();
     }
     public function index()
     {
-        $data['blocks'] = $this->blocksModel->findAll();
+        $data['blocks'] = $this->blockModel->findAll();
         $data['menuItems'] = $this->menuItems; // ✅ Pass menu items
         return view('blocks/index', $data);
     }
@@ -32,13 +32,13 @@ class Blocks extends BaseController
             'name'        => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
         ];
-        $this->blocksModel->insert($data);
+        $this->blockModel->insert($data);
         return redirect()->to('/blocks');
     }
 
     public function edit($id)
     {
-        $data['block'] = $this->blocksModel->find($id);
+        $data['block'] = $this->blockModel->find($id);
         $data['menuItems'] = $this->menuItems; // ✅ Pass menu items
         return view('blocks/edit', $data);
     }
@@ -49,13 +49,13 @@ class Blocks extends BaseController
             'name'        => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
         ];
-        $this->blocksModel->update($id, $data);
+        $this->blockModel->update($id, $data);
         return redirect()->to('/blocks');
     }
 
     public function delete($id)
     {
-        $this->blocksModel->delete($id);
+        $this->blockModel->delete($id);
         return redirect()->to('/blocks');
     }
 }
