@@ -10,11 +10,14 @@
 /* Sidebar */
 .sidebar-wrapper {
     height: 100vh;
-    position: sticky;
+    overflow-y: auto; /* Enable vertical scrolling */
+    position: sticky; /* Keep sidebar fixed */
     top: 0;
     border-right: 1px solid #ddd;
     padding: 0;
 }
+
+
 
 /* Main Content */
 .col-md-9 {

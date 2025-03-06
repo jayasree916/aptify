@@ -75,8 +75,13 @@ class Apartments extends BaseController
 
     public function edit($id)
     {
-        $data['apartment'] = $this->apartmentModel->find($id);
-        $data['menuItems'] = $this->menuItems;
+        $data = [
+            'apartment' => $this->apartmentModel->find($id),
+            'blocks' => $this->blockModel->findAll(),
+            'parkingTypes' => $this->parkingTypeModel->findAll(),
+            'apartmentTypes' => $this->apartmentTypeModel->findAll(),
+            'menuItems' => $this->menuItems
+        ];
         return view('apartments/edit', $data);
     }
 
@@ -84,12 +89,12 @@ class Apartments extends BaseController
     {
 
         $this->apartmentModel->update($id, [
-            'block_id' => $this->request->getPost('block_id'),
+            'block_id' => $this->request->getPost('block'),
             'name' => $this->request->getPost('name'),
             'description' => $this->request->getPost('description'),
-            'parking_type_id' => $this->request->getPost('parking_type_id'),
-            'apartment_type_id' => $this->request->getPost('apartment_type_id'),
-            'updated_by' => 1, // Change this based on authentication
+            'parking_type_id' => $this->request->getPost('parking_type'),
+            'apartment_type_id' => $this->request->getPost('apartment_type'),
+            'updated_by' => session()->get('user_id'), // Change this based on authentication
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
 

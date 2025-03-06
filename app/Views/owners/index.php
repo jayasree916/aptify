@@ -13,7 +13,6 @@
 <table class="table table-bordered mt-3">
     <thead>
         <tr>
-            <th>Block No</th>
             <th>Apartment No</th>
             <th>Owner Name</th>
             <th>Address</th>
@@ -25,14 +24,13 @@
     <tbody>
         <?php foreach ($owners as $owner): ?>
             <tr>
-                <td><?= esc($owner['block_no']) ?></td>
                 <td><?= esc($owner['apartment_no']) ?></td>
                 <td><?= esc($owner['owner_name']) ?></td>
                 <td><?= esc($owner['address']) ?></td>
                 <td><?= esc($owner['mobile_no']) ?></td>
                 <td><?= esc($owner['email']) ?></td>
                 <td>
-                    <a href="<?= base_url('/owner/apartment-details/' . $owner['id']) ?>" class="btn btn-info">View</a>
+                    <a href="<?= base_url('/owners/owner-details/' . $owner['id']) ?>" class="btn btn-info">View</a>
                 </td>
             </tr>
         <?php endforeach; ?>

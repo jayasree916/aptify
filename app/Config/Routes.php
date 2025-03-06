@@ -115,3 +115,24 @@ $routes->group('apartments', ['namespace' => 'App\Controllers'], function ($rout
     $routes->get('delete/(:num)', 'Apartments::delete/$1');
 });
 
+$routes->group('facilities', function ($routes) {
+    $routes->get('/', 'Facilities::index');
+    $routes->get('add', 'Facilities::add');
+    $routes->post('add', 'Facilities::store');
+    $routes->get('edit/(:num)', 'Facilities::edit/$1');
+    $routes->post('edit/(:num)', 'Facilities::update/$1');
+    $routes->get('delete/(:num)', 'Facilities::delete/$1');
+});
+
+$routes->group('facility_bookings', function ($routes) {
+    $routes->get('/', 'FacilityBookings::index');
+    $routes->get('add', 'FacilityBookings::add');
+    $routes->post('add', 'FacilityBookings::store');
+    $routes->get('approve/(:num)', 'FacilityBookings::approve/$1');
+    $routes->get('reject/(:num)', 'FacilityBookings::reject/$1');
+    $routes->get('edit/(:num)', 'FacilityBookings::edit/$1');
+    $routes->post('edit/(:num)', 'FacilityBookings::update/$1');
+    $routes->get('delete/(:num)', 'FacilityBookings::delete/$1');
+});
+
+

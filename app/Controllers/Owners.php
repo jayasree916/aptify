@@ -31,12 +31,15 @@ class Owners extends BaseController
     }
     public function index()
     {
-        $data['owners'] = $this->ownerModel->findAll();
+        $data['owners'] = $this->ownerModel->select('owners.*, apartments.name AS apartment_no')
+                    ->join('apartments', 'apartments.id = owners.apartment_id', 'left')
+                    ->findAll();
         $data['menuItems'] = $this->menuItems;
         return view('owners/index', $data);
     }
     public function add()
     {
+        $data['apartments'] = $this->apartmentModel->findAll();
         $data['menuItems'] = $this->menuItems;
         return view('owners/add', $data);
     }
@@ -45,25 +48,24 @@ class Owners extends BaseController
     {
         // Validate input data
         if (!$this->validate([
-            'apartment_no' => 'required|is_unique[apartments.apartment_no]',
+            'apartment_no' => 'required',
             'owner_name' => 'required',
             'address' => 'required',
             'contact_no' => 'required',
-            'block' => 'required',
-            'type' => 'required'
+            'email' => 'required',
+            'from_date' => 'required'
         ])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         // Save the apartment
         $apartmentData = [
-            'apartment_no' => $this->request->getPost('apartment_no'),
+            'apartment_id' => $this->request->getPost('apartment_no'),
             'owner_name' => $this->request->getPost('owner_name'),
             'address' => $this->request->getPost('address'),
-            'contact_no' => $this->request->getPost('contact_no'),
-            'block' => $this->request->getPost('block'),
-            'type' => $this->request->getPost('type'),
-            'occupancy' => 'Vacant',
+            'mobile_no' => $this->request->getPost('contact_no'),
+            'email' => $this->request->getPost('email'),
+            'from_date' => $this->request->getPost('from_date'),
             'created_by' => $this->session->get('user_id'), // Assuming user_id is in session
             'updated_by' => $this->session->get('user_id'),
             'created_at' => date('Y-m-d H:i:s'),
@@ -138,7 +140,7 @@ class Owners extends BaseController
 
         return view('owners/apartment_tab', $data);
     }
-    public function apartmentDetails($apartmentId)
+    public function ownerDetails($apartmentId)
     {
         $tab = $this->request->getGet('tab') ?? 'apartment';
         $tabView = '';
@@ -184,7 +186,9 @@ class Owners extends BaseController
                 break;
         }
 
-        $apartment = $this->ownerModel->find($apartmentId);
+        $apartment = $this->ownerModel->select('owners.*, apartments.name AS apartment_no, blocks.name AS block')
+        ->join('apartments', 'apartments.id = owners.apartment_id', 'left')
+        ->join('blocks', 'blocks.id = apartments.block_id', 'left')->find($apartmentId);
 
         return view('owners/apartment_tab', [
             'apartment' => $apartment,
