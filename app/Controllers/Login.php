@@ -21,7 +21,10 @@ class Login extends BaseController
         $password = $this->request->getPost('password');
 
         // Fetch user by username
-        $user = $userModel->getUserByUsername($username);
+        //$user = $userModel->getUserByUsername($username);
+        $user = $userModel->where('username', $username)
+        ->orWhere('contact_no', $username)
+        ->first();
         if ($user) {
             // Verify the password
             if (password_verify($password, $user['password'])) {
