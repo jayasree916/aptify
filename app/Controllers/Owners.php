@@ -58,6 +58,16 @@ class Owners extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        // Check if there is an existing owner with to_date NULL or in the future
+    $existingOwner = $this->ownerModel
+    ->where('apartment_id', $this->request->getPost('apartment_no'))
+    ->where('(to_date IS NULL OR to_date > NOW())', null, false)
+    ->first();
+
+if ($existingOwner) {
+    return redirect()->back()->withInput()->with('error', 'Cannot add a new owner. Previous owner is active now');
+} else {
+
         // Save the apartment
         $apartmentData = [
             'apartment_id' => $this->request->getPost('apartment_no'),
@@ -73,6 +83,7 @@ class Owners extends BaseController
         ];
         $this->ownerModel->save($apartmentData);
         return redirect()->to('/owners');
+    }
     }
 
     public function edit($id)
