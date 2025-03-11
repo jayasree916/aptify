@@ -54,7 +54,7 @@ class BillingTypes extends BaseController
     public function edit($id)
     {
         $billingType = $this->billingTypeModel->find($id);
-        return view('billing_types/edit', ['billingType' => $billingType]);
+        return view('billing_types/edit', ['billingType' => $billingType, 'menuItems' => $this->menuItems]);
     }
 
     public function update($id)
