@@ -50,7 +50,7 @@
         </header>
         <!-- Hero Section -->
         <section class="hero">
-            <div class="container">
+            <div class="container text-primary">
                 <h2 class="display-4">Welcome to Aptify</h2>
                 <p class="lead">Manage your apartment with ease and efficiency</p>
                 <a href="#features" class="btn btn-warning btn-lg">Explore Features</a>
