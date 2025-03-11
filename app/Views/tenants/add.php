@@ -10,17 +10,7 @@
 <?php endif; ?>
 <form action="<?= base_url('/tenants/add') ?>" method="post">
     <?= csrf_field() ?>
-    <div class="form-group">
-        <label for="apartment_id">Apartment</label>
-        <select class="form-control" id="apartment_id" name="apartment_id" required>
-            <option value="">-- Select Apartment --</option>
-            <?php foreach ($vacantApartments as $apartment): ?>
-                <option value="<?= $apartment['id'] ?>" <?= old('apartment_id') == $apartment['id'] ? 'selected' : '' ?>>
-                    <?= $apartment['apartment_no'] ?> (Block: <?= $apartment['block'] ?>)
-                </option>
-            <?php endforeach; ?>
-        </select>
-    </div>
+    <input type="text" class="form-control" id="apartment_id" name="apartment_id" value="<?= $apartment_id ?>" required>
     <div class="form-group">
         <label for="tenant_name">Tenant Name</label>
         <input type="text" class="form-control" id="tenant_name" name="tenant_name" value="<?= old('tenant_name') ?>" required style="text-transform: capitalize;">

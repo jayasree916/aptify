@@ -199,7 +199,10 @@ if ($existingOwner) {
 
         $apartment = $this->ownerModel->select('owners.*, apartments.name AS apartment_no, blocks.name AS block')
         ->join('apartments', 'apartments.id = owners.apartment_id', 'left')
-        ->join('blocks', 'blocks.id = apartments.block_id', 'left')->find($apartmentId);
+        ->join('blocks', 'blocks.id = apartments.block_id', 'left')
+        ->where('owners.apartment_id', $apartmentId)
+        ->where('(owners.to_date IS NULL OR owners.to_date >= CURDATE())')
+        ->first();
 
         return view('owners/apartment_tab', [
             'apartment' => $apartment,

@@ -12,7 +12,7 @@ class MenuModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['parent_id', 'name', 'url', 'display_order', 'created_at', 'updated_at'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,9 +43,37 @@ class MenuModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
-    public function getMenuByRole($role) {
-        $res = $this->join('menu_roles', 'menus.id = menu_roles.menu_id')
-                        ->where('menu_roles.role_id', $role)->orderBy('display_order')->findAll();
-        return $res;
+    
+    public function getMenuByRole($role)
+    {
+        $menus = $this->join('menu_roles', 'menus.id = menu_roles.menu_id')
+                      ->where('menu_roles.role_id', $role)
+                      ->orderBy('display_order', 'ASC')
+                      ->findAll();
+
+        return $this->buildMenuHierarchy($menus);
+    }
+
+    private function buildMenuHierarchy($menus)
+    {
+        $menuTree = [];
+        $menuMap = [];
+
+        // First pass: Organize by ID
+        foreach ($menus as $menu) {
+            $menu['submenus'] = [];
+            $menuMap[$menu['id']] = $menu;
+        }
+
+        // Second pass: Arrange as parent-child hierarchy
+        foreach ($menus as $menu) {
+            if ($menu['parent_id'] && isset($menuMap[$menu['parent_id']])) {
+                $menuMap[$menu['parent_id']]['submenus'][] = &$menuMap[$menu['id']];
+            } else {
+                $menuTree[] = &$menuMap[$menu['id']];
+            }
+        }
+
+        return $menuTree;
     }
 }

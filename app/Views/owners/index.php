@@ -30,7 +30,7 @@
                 <td><?= esc($owner['mobile_no']) ?></td>
                 <td><?= esc($owner['email']) ?></td>
                 <td>
-                    <a href="<?= base_url('/owners/owner-details/' . $owner['id']) ?>" class="btn btn-info">View</a>
+                    <a href="<?= base_url('/owners/owner-details/' . $owner['apartment_id']) ?>" class="btn btn-info">View</a>
                 </td>
             </tr>
         <?php endforeach; ?>

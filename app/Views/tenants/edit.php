@@ -5,7 +5,7 @@
 
 <form action="<?= base_url('/tenants/edit/' . $tenant['id']) ?>" method="post">
     <?= csrf_field() ?>
-
+    <input type="hidden" class="form-control" id="apartment_id" name="apartment_id" value="<?= old('apartment_id', $tenant['apartment_id']) ?>" required>
     <div class="form-group">
         <label for="tenant_name">Tenant Name</label>
         <input type="text" class="form-control" id="tenant_name" name="tenant_name" value="<?= old('tenant_name', $tenant['tenant_name']) ?>" required>
@@ -19,17 +19,6 @@
     <div class="form-group">
         <label for="contact_number">Contact Number</label>
         <input type="text" class="form-control" id="contact_number" name="contact_number" value="<?= old('contact_number', $tenant['contact_number']) ?>" required>
-    </div>
-
-    <div class="form-group">
-        <label for="apartment_id">Apartment</label>
-        <select class="form-control" id="apartment_id" name="apartment_id" required>
-            <?php foreach ($vacantApartments as $apartment): ?>
-                <option value="<?= $apartment['id'] ?>" <?= old('apartment_id', $tenant['apartment_id']) == $apartment['id'] ? 'selected' : '' ?>>
-                    <?= esc($apartment['apartment_no']) ?> - <?= esc($apartment['block']) ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
     </div>
 
     <div class="form-group">
