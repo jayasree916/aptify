@@ -14,7 +14,8 @@
     <thead>
         <tr>
             <th>Bill No</th>
-            <th>Apartment</th>
+            <th>Apartment No</th>
+            <th>Owner</th>
             <th>Tenant</th>
             <th>Year</th>
             <th>Month</th>
@@ -29,6 +30,7 @@
         <?php foreach ($bills as $bill): ?>
             <tr>
                 <td><?= esc($bill['bill_no']) ?></td>
+                <td><?= esc($bill['apartment_no']) ?></td>
                 <td><?= esc($bill['owner_name']) ?></td>
                 <td><?= esc($bill['tenant_name'] ?? 'N/A') ?></td>
                 <td><?= esc($bill['year']) ?></td>

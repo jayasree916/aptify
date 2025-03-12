@@ -30,8 +30,9 @@ class Bills extends BaseController
     public function index()
     {
         $bills = $this->billModel
-        ->select('bills.*, apartments.owner_name AS owner_name, tenants.tenant_name AS tenant_name')
+        ->select('bills.*, apartments.name AS apartment_no, owners.owner_name AS owner_name, tenants.tenant_name AS tenant_name')
         ->join('apartments', 'apartments.id = bills.apartment_id') // Adjust the foreign key relationship
+        ->join('owners', 'apartments.id = owners.apartment_id') // Adjust the foreign key relationship
         ->join('tenants','tenants.id = bills.tenant_id', 'left') // Adjust the foreign key relationship
         ->findAll();
         $data['bills'] = $bills;

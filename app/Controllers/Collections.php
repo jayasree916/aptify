@@ -192,6 +192,7 @@ class Collections extends BaseController
         ];
 
         if ($this->collectionsModel->insert($data)) {
+            session()->remove('error');
             $this->session->setFlashdata('success', 'Advance receipt recorded successfully.');
             return redirect()->back()->withInput();
         } else {
