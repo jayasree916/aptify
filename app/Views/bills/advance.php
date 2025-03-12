@@ -13,7 +13,7 @@ if (session()->getFlashdata('error')): ?>
 <?php endif; ?>
 <form action="<?= base_url('/billing/advance-payment') ?>" method="post">
     <?= csrf_field() ?>
-    <input type="hidden" class="form-control" id="apartmentId" name="apartment_id" value="<?= $apartment['id']; ?>">
+    <input type="text" class="form-control" id="apartmentId" name="apartment_id" value="<?= $apartment['apartment_id']; ?>">
     <div class="form-group">
         <label for="paymentMode" class="form-label">Payment Method</label>
         <select class="form-select" id="paymentMode" name="payment_mode" required>

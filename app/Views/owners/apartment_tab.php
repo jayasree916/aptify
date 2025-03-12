@@ -15,7 +15,7 @@
     </li>
     
     <li class="nav-item" role="presentation">
-        <a class="nav-link <?= ($activeTab === 'payments') ? 'active' : '' ?>" href="<?= site_url('owners/owner-details/' . $apartment['apartment_id'] . '?tab=payments') ?>" role="tab">Receipts</a>
+        <a class="nav-link <?= ($activeTab === 'payments') ? 'active' : '' ?>" href="<?= site_url('owners/owner-details/' . $apartment['apartment_id'] . '?tab=payments') ?>" role="tab">Paid Bills</a>
     </li>
 </ul>
 
