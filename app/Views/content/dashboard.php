@@ -16,8 +16,8 @@
                     <div class="row">
                         <?php
                         $sections = [
-                            ['title' => 'Apartments', 'desc' => 'View apartments', 'url' => '/apartment', 'color' => 'primary', 'count' => $apartment_count],
-                            ['title' => 'Tenants', 'desc' => 'View tenants', 'url' => '/tenants', 'color' => 'success', 'count' => $tenant_count],
+                            ['title' => 'Apartments', 'desc' => 'View apartments', 'url' => '/owners', 'color' => 'primary', 'count' => $apartment_count],
+                            ['title' => 'Bookings', 'desc' => 'View bookings', 'url' => '/facility_bookings', 'color' => 'success', 'count' => $booking_count],
                             ['title' => 'Users', 'desc' => 'Manage users', 'url' => '/users', 'color' => 'warning', 'count' => $user_count],
                             ['title' => 'Billing', 'desc' => 'View generated bills', 'url' => '/billing', 'color' => 'info', 'count' => $billing_count],
                             ['title' => 'Expenditure', 'desc' => 'View expenditure', 'url' => '/payments', 'color' => 'danger', 'count' => $payment_received],
