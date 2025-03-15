@@ -31,7 +31,7 @@
         </div>
         <div class="login-form-container">
             <header>
-                <h1>Welcome Back</h1>
+                <h1>Welcome</h1>
                 <p>Sign in to continue to your dashboard.</p>
             </header>
             <?php if (session()->getFlashdata('error')): ?>

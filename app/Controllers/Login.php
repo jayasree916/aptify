@@ -50,6 +50,6 @@ class Login extends BaseController
     {
        // $session = session();
         $this->session->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/');
     }
 }
