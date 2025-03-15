@@ -62,11 +62,18 @@ class Receipts extends BaseController
             $errors = $this->validator->getErrors();
             return redirect()->back()->withInput()->with('status', 'danger')->with('message', 'Validation failed.')->with('errors', $errors);
         }
+        $last_receipt_no = $this->receiptGeneratorModel
+        ->where('year', date('Y')) 
+        ->where('receipt_group', 1) 
+        ->first(); 
+        $receipt_no = $last_receipt_no ? $last_receipt_no['last_receipt_no']+1 : 1;
         // Collect data from the form
         $data = [
             'date' => $this->request->getPost('date_of_payment'),
             'bill_id' => '0',
-            'bill_no' => '654',
+            'bill_no' => '0',
+            'receipt_year' => date('Y'),
+            'receipt_no' => $receipt_no,
             'trans_type' => '1',
             'payment_mode' => $this->request->getPost('payment_mode'),
             'billing_type' => $this->request->getPost('bill_type'),
@@ -81,6 +88,17 @@ class Receipts extends BaseController
         ];
 
         if ($this->collectionsModel->insert($data)) {
+            if ($last_receipt_no['last_receipt_no']) {
+                $updateReceiptno = $this->receiptGeneratorModel->update($last_receipt_no['id'], [
+                    'last_receipt_no' => $receipt_no
+                ]);
+            } else {
+                $updateReceiptno = $this->receiptGeneratorModel->insert([
+                    'year' => date('Y'),
+                    'receipt_group' => '1',
+                    'last_receipt_no' => '1'
+                ]);
+            }
             return redirect()->to('/receipts');
         } else {
             return redirect()->back()->withInput()->with('status', 'danger')->with('errors', 'Insertion failed. Please try again');

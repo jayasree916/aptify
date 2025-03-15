@@ -13,7 +13,7 @@ if (session()->getFlashdata('error')): ?>
 <?php endif; ?>
 <form action="<?= base_url('/billing/advance-payment') ?>" method="post">
     <?= csrf_field() ?>
-    <input type="text" class="form-control" id="apartmentId" name="apartment_id" value="<?= $apartment['apartment_id']; ?>">
+    <input type="hidden" class="form-control" id="apartmentId" name="apartment_id" value="<?= $apartment['apartment_id']; ?>">
     <div class="form-group">
         <label for="paymentMode" class="form-label">Payment Method</label>
         <select class="form-select" id="paymentMode" name="payment_mode" required>
@@ -42,3 +42,41 @@ if (session()->getFlashdata('error')): ?>
 
     <button type="submit" class="btn btn-success">Pay Now</button>
 </form>
+<hr>
+
+<h2>Previous Advance Payments</h2>
+
+<?php if (!empty($advance_payments)): ?>
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Date of Payment</th>
+                    <th>Receipt No/Year</th>
+                    <th>Amount</th>
+                    <th>Payment Mode</th>
+                    <th>Paid By</th>
+                    <th>Narration</th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($advance_payments as $index => $payment): ?>
+                    <tr>
+                        <td><?= $index + 1; ?></td>
+                        <td><?= date('d/m/Y', strtotime($payment['date'])); ?></td>
+                        <td><?= esc($payment['receipt_no']).'/'.esc($payment['receipt_year']); ?></td>
+                        <td><?= esc($payment['amount']); ?></td>
+                        <td><?= esc($payment['mode']); ?></td>
+                        <td><?= esc($payment['paid_by']); ?></td>
+                        <td><?= esc($payment['remarks']); ?></td>
+                        
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+<?php else: ?>
+    <p class="text-muted">No advance payments found for this apartment.</p>
+<?php endif; ?>

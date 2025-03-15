@@ -9,6 +9,7 @@ use App\Models\TenantModel;
 use App\Models\BillModel;
 use App\Models\PaymentModeModel;
 use App\Models\BillItemModel;
+use App\Models\CollectionsModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class Owners extends BaseController
@@ -19,6 +20,7 @@ class Owners extends BaseController
     protected $billModel;
     protected $paymentModeModel;
     protected $billItemModel;
+    protected $collectionsModel;
     
     public function __construct()
     {
@@ -28,6 +30,7 @@ class Owners extends BaseController
         $this->billModel = new BillModel();
         $this->paymentModeModel = new PaymentModeModel();
         $this->billItemModel = new BillItemModel();
+        $this->collectionsModel = new CollectionsModel();
     }
     public function index()
     {
@@ -158,6 +161,7 @@ if ($existingOwner) {
         $tenants = '';
         $bills = '';
         $payment_modes = '';
+        $advance_payments = '';
 
         // Select the appropriate view for the tab
         switch ($tab) {
@@ -190,6 +194,13 @@ if ($existingOwner) {
             case 'advance':
                 $tabView = 'bills/advance';
                 $payment_modes = $this->paymentModeModel->where('is_active', true)->findAll();
+                $advance_payments = $this->collectionsModel
+    ->select('collections.*, payment_modes.mode')
+    ->join('payment_modes', 'payment_modes.id = collections.payment_mode', 'left')
+    ->where('apartment_id', $apartmentId)
+    ->where('trans_type', '3')
+    ->findAll();
+
                 break;
             case 'owners':
             default:
@@ -211,6 +222,7 @@ if ($existingOwner) {
             'tenants' => $tenants,
             'bills' => $bills,
             'payment_modes' => $payment_modes,
+            'advance_payments' => $advance_payments,
             'menuItems'=> $this->menuItems,
         ]);
     }

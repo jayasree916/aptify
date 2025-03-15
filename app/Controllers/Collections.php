@@ -7,6 +7,7 @@ use App\Models\BillModel;
 use App\Models\BillingTypeModel;
 use App\Models\BillItemModel;
 use App\Models\PaymentModeModel;
+use App\Models\ReceiptGeneratorModel;
 use CodeIgniter\Controller;
 
 class Collections extends BaseController
@@ -16,6 +17,7 @@ class Collections extends BaseController
     protected $paymentModeModel;
     protected $billingTypeModel;
     protected $billItemModel;
+    protected $receiptGeneratorModel;
 
 
     public function __construct()
@@ -25,6 +27,7 @@ class Collections extends BaseController
         $this->billingTypeModel = new BillingTypeModel();
         $this->billItemModel = new BillItemModel();
         $this->paymentModeModel = new PaymentModeModel();
+        $this->receiptGeneratorModel = new ReceiptGeneratorModel();
     }
     public function index()
     {
@@ -61,11 +64,18 @@ class Collections extends BaseController
             $errors = $this->validator->getErrors();
             return redirect()->back()->withInput()->with('status', 'danger')->with('message', 'Validation failed.')->with('errors', $errors);
         }
+        $last_receipt_no = $this->receiptGeneratorModel
+        ->where('year', date('Y')) 
+        ->where('receipt_group', 2) 
+        ->first(); 
+        $receipt_no = $last_receipt_no ? $last_receipt_no['last_receipt_no']+1 : 1;
         // Collect data from the form
         $data = [
             'date' => $this->request->getPost('date_of_payment'),
             'bill_id' => '0',
-            'bill_no' => '654',
+            'bill_no' => '0',
+            'receipt_year' => date('Y'),
+            'receipt_no' => $receipt_no,
             'trans_type' => '2',
             'payment_mode' => $this->request->getPost('payment_mode'),
             'billing_type' => $this->request->getPost('bill_type'),
@@ -78,8 +88,19 @@ class Collections extends BaseController
             'updated_by' => $this->session->get('user_id'),
             'updated_at' => date('Y-m-d H:i:s'),
         ];
-
+        
         if ($this->collectionsModel->insert($data)) {
+            if ($last_receipt_no['last_receipt_no']) {
+                $updateReceiptno = $this->receiptGeneratorModel->update($last_receipt_no['id'], [
+                    'last_receipt_no' => $receipt_no
+                ]);
+            } else {
+                $updateReceiptno = $this->receiptGeneratorModel->insert([
+                    'year' => date('Y'),
+                    'receipt_group' => '2',
+                    'last_receipt_no' => '1'
+                ]);
+            }
             return redirect()->to('/payments');
         } else {
             return redirect()->back()->withInput()->with('status', 'danger')->with('errors', 'Insertion failed. Please try again');
@@ -103,6 +124,11 @@ class Collections extends BaseController
             return redirect()->back()->withInput()->with('status', 'danger')->with('message', 'Validation failed.')->with('errors', $errors);
         }
         $items = $this->billItemModel->where('bill_id', $this->request->getPost('bill_id'))->orderBy('id', 'ASC')->findAll();
+        $last_receipt_no = $this->receiptGeneratorModel
+        ->where('year', date('Y')) 
+        ->where('receipt_group', 1) 
+        ->first(); 
+        $receipt_no = $last_receipt_no ? $last_receipt_no['last_receipt_no']+1 : 1;
         $data = []; 
         foreach ($items as $item) {
             // Collect data from the form
@@ -110,6 +136,8 @@ class Collections extends BaseController
                 'date' => $this->request->getPost('date_of_payment'),
                 'bill_id' => $this->request->getPost('bill_id'),
                 'bill_no' => $this->request->getPost('bill_no'),
+                'receipt_year' => date('Y'),
+                'receipt_no' => $receipt_no,
                 'trans_type' => '1',
                 'payment_mode' => $this->request->getPost('payment_mode'),
                 'billing_type' => $item['bill_type_id'],
@@ -134,11 +162,30 @@ class Collections extends BaseController
         if ($insertSuccess) {
             $updateSuccess = $this->billModel->update($this->request->getPost('bill_id'), $update_data);
             if ($updateSuccess) {
-                $db->transCommit(); // Commit the transaction
+                if ($last_receipt_no && ($last_receipt_no['last_receipt_no']>0)) {
+                    $updateReceiptno = $this->receiptGeneratorModel->update($last_receipt_no['id'], [
+                        'last_receipt_no' => $receipt_no
+                    ]);
+                } else {
+                    $updateReceiptno = $this->receiptGeneratorModel->insert([
+                        'year' => date('Y'),
+                        'receipt_group' => '1',
+                        'last_receipt_no' => '1'
+                    ]);
+                }
+                if($updateReceiptno) {
+                    $db->transCommit(); // Commit the transaction
                 return $this->response->setJSON([
                     'status' => 'success',
                     'message' => 'Payment recorded successfully.',
                 ]);
+                } else {
+                    $db->transRollback(); // Rollback the transaction
+                    return $this->response->setJSON([
+                        'status' => 'error',
+                        'message' => 'Failed to update bill status.',
+                    ]);
+            }
             } else {
                 $db->transRollback(); // Rollback the transaction
                 return $this->response->setJSON([
@@ -172,12 +219,18 @@ class Collections extends BaseController
             $this->session->setFlashdata('error', $errors);
             return redirect()->back()->withInput();
         }
-
+        $last_receipt_no = $this->receiptGeneratorModel
+        ->where('year', date('Y')) 
+        ->where('receipt_group', 1) 
+        ->first(); 
+        $receipt_no = $last_receipt_no ? $last_receipt_no['last_receipt_no']+1 : 1;
         // Collect data from the form
         $data = [
             'date' => $this->request->getPost('date_of_payment'),
             'apartment_id' => $this->request->getPost('apartment_id'),
-            'bill_no' => '123',
+            'bill_no' => '0',
+            'receipt_year' => date('Y'),
+            'receipt_no' => $receipt_no,
             'trans_type' => '3',
             'payment_mode' => $this->request->getPost('payment_mode'),
             'billing_type' => '0',
@@ -192,6 +245,17 @@ class Collections extends BaseController
         ];
 
         if ($this->collectionsModel->insert($data)) {
+            if ($last_receipt_no['last_receipt_no']) {
+                $this->receiptGeneratorModel->update($last_receipt_no['id'], [
+                    'last_receipt_no' => $receipt_no
+                ]);
+            } else {
+                $this->receiptGeneratorModel->insert([
+                    'year' => date('Y'),
+                    'receipt_group' => '1',
+                    'last_receipt_no' => '1'
+                ]);
+            }
             session()->remove('error');
             $this->session->setFlashdata('success', 'Advance receipt recorded successfully.');
             return redirect()->back()->withInput();
