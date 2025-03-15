@@ -21,6 +21,8 @@ class CollectionsModel extends Model
         'amount',
         'bill_id',
         'bill_no',
+        'receipt_year',
+        'receipt_no',
         'apartment_id',
         'paid_by',
         'Remarks',

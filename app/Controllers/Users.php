@@ -56,7 +56,7 @@ class Users extends BaseController
     {
         $data = [
             'username'   => $this->request->getPost('user_name'),
-            'password'   => password_hash('password', PASSWORD_DEFAULT),
+            'password'   => password_hash($this->request->getPost('contact_no'), PASSWORD_DEFAULT),
             'name'       => $this->request->getPost('name'),
             'address'    => $this->request->getPost('address'),
             'email'      => $this->request->getPost('email'),
@@ -67,7 +67,7 @@ class Users extends BaseController
         ];
 
         if ($this->userModel->insert($data)) {
-            return redirect()->to('/users')->with('success', 'User created successfully.');
+            return redirect()->to('/users')->with('success', 'User created successfully. Your default password is your mobile number');
         } else {
             return redirect()->back()->with('error', 'Failed to create user.');
         }
